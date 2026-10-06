@@ -1,3 +1,4 @@
+<string name="fallback_offline">Connection failed — Rafiq answered locally 📴</string>
 <resources>
     <string name="app_name">Rafiq</string>
 
