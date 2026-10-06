@@ -69,26 +69,29 @@ object FaceAnalyzer {
         val cx = bb.exactCenterX()
         val cy = bb.exactCenterY() - bb.height() * 0.08f
 
-        val left = (cx - side / 2f).coerceIn(0f, (src.width - side).coerceAtLeast(0f))
-        val top = (cy - side / 2f).coerceIn(0f, (src.height - side).coerceAtLeast(0f))
-        val cw = min(side, src.width - left.toInt()).toInt().coerceAtLeast(1)
-        val ch = min(side, src.height - top.toInt()).toInt().coerceAtLeast(1)
+        // FIX: تحويل صريح إلى Float قبل coerceIn
+        val maxLeft = (src.width - side).coerceAtLeast(0).toFloat()
+        val maxTop = (src.height - side).coerceAtLeast(0).toFloat()
+        val left = (cx - side / 2f).coerceIn(0f, maxLeft)
+        val top = (cy - side / 2f).coerceIn(0f, maxTop)
+        val cw = min(side, src.width - left.toInt()).coerceAtLeast(1)
+        val ch = min(side, src.height - top.toInt()).coerceAtLeast(1)
 
         fun nx(x: Float) = ((x - left) / cw).coerceIn(0f, 1f)
         fun ny(y: Float) = ((y - top) / ch).coerceIn(0f, 1f)
 
+        // FIX: MOUTH_TOP غير موجود في ML Kit — نستخدم MOUTH_LEFT/RIGHT/BOTTOM فقط
         val mL = face.getLandmark(FaceLandmark.MOUTH_LEFT)?.position
         val mR = face.getLandmark(FaceLandmark.MOUTH_RIGHT)?.position
-        val mT = face.getLandmark(FaceLandmark.MOUTH_TOP)?.position
         val mB = face.getLandmark(FaceLandmark.MOUTH_BOTTOM)?.position
         val eL = face.getLandmark(FaceLandmark.LEFT_EYE)?.position
         val eR = face.getLandmark(FaceLandmark.RIGHT_EYE)?.position
 
         val data = if (mL != null && mR != null && eL != null && eR != null) {
             val mouthCx = (mL.x + mR.x) / 2f
-            val mouthCy = if (mT != null && mB != null) (mT.y + mB.y) / 2f else (mL.y + mR.y) / 2f
+            val mouthCy = (mL.y + mR.y) / 2f
             val halfW = dist(mL.x, mL.y, mR.x, mR.y) / 2f
-            val mouthH = if (mT != null && mB != null) abs(mB.y - mT.y) else halfW * 0.5f
+            val mouthH = if (mB != null) abs(mB.y - mouthCy) * 1.8f else halfW * 0.5f
             val eyeDist = dist(eL.x, eL.y, eR.x, eR.y)
 
             FaceData(
