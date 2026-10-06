@@ -97,4 +97,5 @@
         <item>طق طق! رفيق جاهز للعب والتعلم! 🧩</item>
         <item>اليوم سيكون رائعاً! مستعد؟ 🚀</item>
     </string-array>
+    <string name="fallback_offline">تعذر الاتصال — أجابك رفيق محلياً 📴</string>
 </resources>
