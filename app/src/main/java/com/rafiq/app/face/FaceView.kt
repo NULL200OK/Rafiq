@@ -205,7 +205,7 @@ class FaceView @JvmOverloads constructor(
 
         if (hasFace) {
             updateVerts()
-            canvas.drawBitmapMesh(bmp, cols, rows, verts, 0, meshPaint)
+            canvas.drawBitmapMesh(bmp, cols, rows, verts, 0, null, meshPaint)
 
             if (mouthOpen > 0.06f) {
                 cavityPaint.alpha = (mouthOpen * 150).toInt()
