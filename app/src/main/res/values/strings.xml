@@ -1,4 +1,3 @@
-<string name="fallback_offline">Connection failed — Rafiq answered locally 📴</string>
 <resources>
     <string name="app_name">Rafiq</string>
 
@@ -109,4 +108,5 @@
         <item>Knock knock! Rafiq is ready to play and learn! 🧩</item>
         <item>Today is going to be AWESOME! Ready? 🚀</item>
     </string-array>
+    <string name="fallback_offline">Connection failed — Rafiq answered locally 📴</string>
 </resources>
