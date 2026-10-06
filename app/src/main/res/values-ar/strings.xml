@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">رفيق</string>
+
+    <string name="config_title">أهلاً بك في رفيق 🌟</string>
+    <string name="config_subtitle">رفيقك الذكي. أدخل الإعدادات للبدء.</string>
+    <string name="config_expired">⚠️ انتهت صلاحية الإعدادات السابقة. الرجاء إدخال إعدادات جديدة.</string>
+    <string name="api_key">مفتاح الـ API</string>
+    <string name="api_key_hint">الصق مفتاحك هنا</string>
+    <string name="base_url">عنوان الخدمة (Base URL)</string>
+    <string name="model_name">اسم النموذج</string>
+    <string name="test_connection">اختبار الاتصال</string>
+    <string name="testing">جارٍ الاختبار…</string>
+    <string name="connection_ok">✅ تم الاتصال بنجاح!</string>
+    <string name="auth_invalid">❌ المفتاح غير صالح أو منتهي الصلاحية</string>
+    <string name="connection_failed">❌ فشل الاتصال</string>
+    <string name="save">حفظ وبدء</string>
+    <string name="error_empty_key">الرجاء إدخال مفتاح الـ API</string>
+
+    <string name="rafiq_hello">أهلاً! أنا رفيق 🌟 رفيقك الذكي. كيف أجعل يومك أجمل؟</string>
+    <string name="chat_input_hint">اكتب رسالتك…</string>
+    <string name="typing">رفيق يكتب…</string>
+    <string name="offline_banner">📴 وضع محلي — لا يوجد اتصال بالإنترنت</string>
+    <string name="status_online">متصل</string>
+    <string name="status_offline">محلي</string>
+    <string name="send">إرسال</string>
+
+    <string name="listening">🎙️ أستمع إليك… تحدث الآن!</string>
+    <string name="listening_short">أستمع…</string>
+    <string name="mic_permission_denied">🔒 اسمح لرفيق باستخدام المايكروفون</string>
+    <string name="voice_unavailable">⚠️ التعرف الصوتي غير متوفر على هذا الجهاز</string>
+    <string name="voice_error">⚠️ لم أسمعك بوضوح، حاول مرة أخرى</string>
+    <string name="tts_lang_missing">🔇 جهازك لا يملك أصواتاً لإحدى اللغات — سأكتفي بالكتابة عندها</string>
+    <string name="speaker_desc">تشغيل/كتم صوت رفيق</string>
+    <string name="long_press_hint">💡 نصيحة: اضغط مطولاً على أي رسالة لتسمعها 🔊</string>
+
+    <string name="cancel">إلغاء</string>
+    <string name="face_menu">صورة الرفيق</string>
+    <string name="face_opt_change">📷 اختيار صورة من المعرض</string>
+    <string name="face_opt_reset">🔄 العودة للوجه الافتراضي</string>
+    <string name="face_saved">✨ تم! صورتك أصبحت تفاعلية</string>
+    <string name="face_no_face">🙂 لم أجد وجهاً واضحاً — سأحرك الصورة كاملة بشكل لطيف</string>
+    <string name="face_error">⚠️ تعذر تجهيز هذه الصورة، جرّب صورة أخرى</string>
+
+    <string name="ok">حسناً</string>
+    <string name="welcome_back">أهلاً بعودتك! 🌟 افتقدتك — كيف كان يومك؟</string>
+    <string name="welcome_back_name">أهلاً بعودتك يا %1$s! 🌟 افتقدتك — كيف كان يومك؟</string>
+    <string name="mem_title">🧠 ما يتذكره رفيق عنك</string>
+    <string name="mem_empty">لا شيء بعد — شاركني أشياء عنك وسأتذكرها (اسمك، اهتماماتك، أحلامك…)</string>
+    <string name="mem_clear_all">🗑️ انسَ كل شيء</string>
+    <string name="mem_delete_confirm">حذف هذه الذكرى؟</string>
+    <string name="mem_cleared">🧹 تم — عقلي نظيف من جديد</string>
+
+    <string name="mode_menu">اختر وضع رفيق</string>
+    <string name="mode_normal">🙂 عادي — للجميع</string>
+    <string name="mode_kid">🧒 وضع الطفل — آمن وممتع</string>
+    <string name="mode_senior">👴 وضع كبار السن — كبير وواضح</string>
+    <string name="mode_trainer">🗣️ مدرّب اللغات</string>
+    <string name="trainer_title">أتدرب على أي لغة؟</string>
+    <string name="trainer_fr">🇫🇷 الفرنسية</string>
+    <string name="trainer_en">🇬🇧 الإنجليزية</string>
+    <string name="trainer_ar">🇸🇦 العربية</string>
+    <string name="trainer_off">❌ إيقاف المدرّب</string>
+    <string name="trainer_banner_fr">🗣️ مدرّب الفرنسية — تحدث معي بالفرنسية! (اضغط للتغيير)</string>
+    <string name="trainer_banner_en">🗣️ مدرّب الإنجليزية — تحدث معي بالإنجليزية! (اضغط للتغيير)</string>
+    <string name="trainer_banner_ar">🗣️ مدرّب العربية — تحدث معي بالعربية! (اضغط للتغيير)</string>
+    <string name="trainer_offline_prefix">📴 تدريب بدون إنترنت — جرّب هذا:</string>
+    <string name="kid_blocked">هيا نستخدم كلمات جميلة ولطيفة 🌱 قل لي — ما الذي يبتسمك اليوم؟</string>
+    <string name="mode_changed">تم تحديث الوضع ✅</string>
+
+    <string name="settings_menu">إعدادات رفيق</string>
+    <string name="morning_state_on">🔔 تحية الصباح: مفعّلة الساعة %1$s — اضغط للإيقاف</string>
+    <string name="morning_state_off">🔕 تحية الصباح: متوقفة — اضغط للتفعيل</string>
+    <string name="morning_set_time">⏰ تغيير وقت التحية</string>
+    <string name="morning_enabled">☀️ تم تفعيل تحية الصباح! سيحيّيك رفيق باسمك كل يوم</string>
+    <string name="morning_disabled">🔕 تم إيقاف تحية الصباح</string>
+    <string name="morning_time_set">⏰ تم حفظ الوقت ✅</string>
+    <string name="morning_title">صباح الخير! ☀️</string>
+    <string name="morning_title_name">صباح الخير يا %1$s! ☀️</string>
+    <string name="morning_streak">🔥 %1$d أيام متتالية معاً — واصل!</string>
+    <string name="notif_channel">تحيات الصباح</string>
+    <string name="exact_alarm_hint">كي تصل التحية في وقتها بالضبط، اسمح لرفيق بإذن «المنبهات والتذكيرات»</string>
+    <string name="clear_chat">🧹 مسح المحادثة</string>
+    <string name="clear_chat_confirm">حذف كل الرسائل؟ لا يمكن التراجع.</string>
+    <string name="chat_cleared">🧹 بداية جديدة!</string>
+    <string name="settings_config">🔑 إعدادات الاتصال (API)</string>
+    <string name="about_title">ℹ️ حول رفيق</string>
+    <string name="about_body">رفيق — الإصدار 1.0 🌟\nرفيقك الذكي لكل الأعمار:\n• يتكلم ويستمع ويُظهر مشاعره\n• صورتك تتحول لكائن حي\n• يتذكر ما يهمك\n• أنماط الطفل وكبار السن ومدرّب اللغات\n• يعمل أونلاين وأوفلاين\n\nتصميم وتطوير: المهندس نبيل حسن — خبير الأمن السيبراني والبرامج والذكاء الاصطناعي\n\nصُنع بحب 💚</string>
+
+    <string-array name="morning_lines">
+        <item>رفيق استيقظ يفكر فيك — كيف سنبدأ يومنا؟ 🌟</item>
+        <item>يوم جديد ومغامرة جديدة! حدثني عن خططك ☀️</item>
+        <item>صباح الخير! لا تنسَ كوب ماء 💧</item>
+        <item>مستعد لتتعلم شيئاً مذهلاً اليوم؟ 🚀</item>
+    </string-array>
+    <string-array name="morning_lines_kid">
+        <item>استيقظ يا نائم! 🌞 يوم ممتع بانتظارنا!</item>
+        <item>طق طق! رفيق جاهز للعب والتعلم! 🧩</item>
+        <item>اليوم سيكون رائعاً! مستعد؟ 🚀</item>
+    </string-array>
+</resources>

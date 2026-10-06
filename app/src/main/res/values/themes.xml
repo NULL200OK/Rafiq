@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.Rafiq" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/rafiq_primary</item>
+        <item name="colorPrimaryDark">@color/rafiq_primary_dark</item>
+        <item name="colorSecondary">@color/rafiq_accent</item>
+        <item name="android:colorBackground">@color/rafiq_background</item>
+        <item name="android:statusBarColor">@color/rafiq_primary_dark</item>
+    </style>
+</resources>

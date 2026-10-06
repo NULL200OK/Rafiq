@@ -1,0 +1,7 @@
+<resources>
+    <color name="rafiq_primary">#00897B</color>
+    <color name="rafiq_primary_dark">#00695C</color>
+    <color name="rafiq_accent">#FF7043</color>
+    <color name="rafiq_background">#FAFAF7</color>
+    <color name="rafiq_error">#D32F2F</color>
+</resources>

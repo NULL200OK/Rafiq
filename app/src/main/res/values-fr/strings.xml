@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">Rafiq</string>
+
+    <string name="config_title">Bienvenue dans Rafiq 🌟</string>
+    <string name="config_subtitle">Votre compagnon IA. Entrez votre configuration pour commencer.</string>
+    <string name="config_expired">⚠️ Votre configuration précédente a expiré. Veuillez en saisir une nouvelle.</string>
+    <string name="api_key">Clé API</string>
+    <string name="api_key_hint">Collez votre clé API ici</string>
+    <string name="base_url">URL de base de l\'API</string>
+    <string name="model_name">Nom du modèle</string>
+    <string name="test_connection">Tester la connexion</string>
+    <string name="testing">Test en cours…</string>
+    <string name="connection_ok">✅ Connexion réussie !</string>
+    <string name="auth_invalid">❌ Clé API invalide ou expirée</string>
+    <string name="connection_failed">❌ Échec de la connexion</string>
+    <string name="save">Enregistrer et démarrer</string>
+    <string name="error_empty_key">Veuillez saisir votre clé API</string>
+
+    <string name="rafiq_hello">Bonjour ! Je suis Rafiq 🌟 ton compagnon intelligent. Comment rendre ta journée meilleure ?</string>
+    <string name="chat_input_hint">Écris ton message…</string>
+    <string name="typing">Rafiq écrit…</string>
+    <string name="offline_banner">📴 Mode local — pas de connexion Internet</string>
+    <string name="status_online">En ligne</string>
+    <string name="status_offline">Local</string>
+    <string name="send">Envoyer</string>
+
+    <string name="listening">🎙️ Je t\'écoute… parle maintenant !</string>
+    <string name="listening_short">J\'écoute…</string>
+    <string name="mic_permission_denied">🔒 Autorise l\'accès au microphone pour Rafiq</string>
+    <string name="voice_unavailable">⚠️ La reconnaissance vocale n\'est pas disponible sur cet appareil</string>
+    <string name="voice_error">⚠️ Je ne t\'ai pas bien entendu — réessaie</string>
+    <string name="tts_lang_missing">🔇 Cet appareil n\'a pas de voix pour une des langues — Rafiq restera silencieux là</string>
+    <string name="speaker_desc">Activer/couper la voix de Rafiq</string>
+    <string name="long_press_hint">💡 Astuce : appuie longuement sur un message pour l\'entendre 🔊</string>
+
+    <string name="cancel">Annuler</string>
+    <string name="face_menu">L\'image du compagnon</string>
+    <string name="face_opt_change">📷 Choisir une image de la galerie</string>
+    <string name="face_opt_reset">🔄 Revenir au visage par défaut</string>
+    <string name="face_saved">✨ C\'est fait ! Ton image prend vie</string>
+    <string name="face_no_face">🙂 Pas de visage clair trouvé — j\'animerai toute l\'image doucement</string>
+    <string name="face_error">⚠️ Impossible de traiter cette image, essaie une autre</string>
+
+    <string name="ok">D\'accord</string>
+    <string name="welcome_back">Content de te revoir ! 🌟 Tu m\'as manqué — comment s\'est passée ta journée ?</string>
+    <string name="welcome_back_name">Content de te revoir, %1$s ! 🌟 Tu m\'as manqué — comment s\'est passée ta journée ?</string>
+    <string name="mem_title">🧠 Ce dont Rafiq se souvient de toi</string>
+    <string name="mem_empty">Rien pour l\'instant — parle-moi de toi et je m\'en souviendrai (ton prénom, tes goûts, tes rêves…)</string>
+    <string name="mem_clear_all">🗑️ Tout oublier</string>
+    <string name="mem_delete_confirm">Supprimer ce souvenir ?</string>
+    <string name="mem_cleared">🧹 Voilà — mon esprit est tout neuf</string>
+
+    <string name="mode_menu">Choisis le mode de Rafiq</string>
+    <string name="mode_normal">🙂 Normal — pour tout le monde</string>
+    <string name="mode_kid">🧒 Mode enfant — sûr &amp; amusant</string>
+    <string name="mode_senior">👴 Mode senior — grand &amp; clair</string>
+    <string name="mode_trainer">🗣️ Entraîneur de langues</string>
+    <string name="trainer_title">Quelle langue veux-tu pratiquer ?</string>
+    <string name="trainer_fr">🇫🇷 Français</string>
+    <string name="trainer_en">🇬🇧 Anglais</string>
+    <string name="trainer_ar">🇸🇦 Arabe</string>
+    <string name="trainer_off">❌ Désactiver l\'entraîneur</string>
+    <string name="trainer_banner_fr">🗣️ Entraîneur de français — parle-moi en français ! (touche pour changer)</string>
+    <string name="trainer_banner_en">🗣️ Entraîneur d\'anglais — parle-moi en anglais ! (touche pour changer)</string>
+    <string name="trainer_banner_ar">🗣️ Entraîneur d\'arabe — parle-moi en arabe ! (touche pour changer)</string>
+    <string name="trainer_offline_prefix">📴 Entraînement hors ligne — essaie ceci :</string>
+    <string name="kid_blocked">Utilisons des mots gentils et doux 🌱 Dis-moi — qu\'est-ce qui te fait sourire aujourd\'hui ?</string>
+    <string name="mode_changed">Mode mis à jour ✅</string>
+
+    <string name="settings_menu">Réglages de Rafiq</string>
+    <string name="morning_state_on">🔔 Salutation du matin : activée à %1$s — touche pour désactiver</string>
+    <string name="morning_state_off">🔕 Salutation du matin : désactivée — touche pour activer</string>
+    <string name="morning_set_time">⏰ Changer l\'heure de la salutation</string>
+    <string name="morning_enabled">☀️ Salutation du matin activée ! Rafiq te dira bonjour par ton prénom</string>
+    <string name="morning_disabled">🔕 Salutation du matin désactivée</string>
+    <string name="morning_time_set">⏰ Heure enregistrée ✅</string>
+    <string name="morning_title">Bonjour ! ☀️</string>
+    <string name="morning_title_name">Bonjour %1$s ! ☀️</string>
+    <string name="morning_streak">🔥 %1$d jours de suite ensemble — continue !</string>
+    <string name="notif_channel">Salutations du matin</string>
+    <string name="exact_alarm_hint">Pour que la salutation arrive à l\'heure exacte, accorde à Rafiq l\'autorisation « Alarmes et rappels »</string>
+    <string name="clear_chat">🧹 Effacer la conversation</string>
+    <string name="clear_chat_confirm">Supprimer tous les messages ? C\'est irréversible.</string>
+    <string name="chat_cleared">🧹 Nouveau départ !</string>
+    <string name="settings_config">🔑 Réglages de connexion (API)</string>
+    <string name="about_title">ℹ️ À propos de Rafiq</string>
+    <string name="about_body">Rafiq v1.0 🌟\nTon compagnon intelligent pour tous les âges :\n• Parle, écoute et montre ses émotions\n• Ton image prend vie\n• Se souvient de ce qui compte pour toi\n• Modes enfant, senior et entraîneur de langues\n• Fonctionne en ligne et hors ligne\n\nConçu et développé par Ing. Nabil Hassan — Expert en Cybersécurité, Logiciels &amp; IA\n\nFait avec 💚</string>
+
+    <string-array name="morning_lines">
+        <item>Rafiq s\'est réveillé en pensant à toi — comment commençons-nous la journée ? 🌟</item>
+        <item>Nouveau jour, nouvelle aventure ! Raconte-moi tes projets ☀️</item>
+        <item>Bonjour ! N\'oublie pas de boire un peu d\'eau 💧</item>
+        <item>Prêt à apprendre quelque chose d\'incroyable aujourd\'hui ? 🚀</item>
+    </string-array>
+    <string-array name="morning_lines_kid">
+        <item>Réveille-toi, petit dormeur ! 🌞 Une journée amusante nous attend !</item>
+        <item>Toc toc ! Rafiq est prêt à jouer et à apprendre ! 🧩</item>
+        <item>Aujourd\'hui sera GÉNIAL ! Prêt ? 🚀</item>
+    </string-array>
+</resources>

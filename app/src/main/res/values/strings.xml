@@ -1,0 +1,111 @@
+<resources>
+    <string name="app_name">Rafiq</string>
+
+    <!-- الترحيب الأول (ثنائي اللغة دائماً) -->
+    <string name="welcome_title">أهلاً بك في «رفيق» 🌟 | Welcome to Rafiq</string>
+    <string name="welcome_message">تطبيق «رفيق» — رفيقك الذكي لكل الأعمار: يتحدث معك، يستمع إليك، يتذكر ما يهمك، ويعمل أونلاين وأوفلاين.\n\n✦ تم تصميم وتطوير هذا البرنامج بواسطة:\nنبيل حسن\nخبير الأمن السيبراني والبرامج والذكاء الاصطناعي\n\n─────────────────\n\nRafiq — your smart companion for all ages: it talks with you, listens to you, remembers what matters to you, and works online and offline.\n\n✦ This app was designed and developed by:\nNabil Hassan\nExpert in Cybersecurity, Software and Artificial Intelligence</string>
+
+    <!-- شاشة الكونفيق -->
+    <string name="config_title">Welcome to Rafiq 🌟</string>
+    <string name="config_subtitle">Your AI companion. Connect your configuration to begin.</string>
+    <string name="config_expired">⚠️ Your previous configuration expired. Please enter a new one.</string>
+    <string name="api_key">API Key</string>
+    <string name="api_key_hint">Paste your API key here</string>
+    <string name="base_url">API Base URL</string>
+    <string name="model_name">Model Name</string>
+    <string name="test_connection">Test Connection</string>
+    <string name="testing">Testing…</string>
+    <string name="connection_ok">✅ Connected successfully!</string>
+    <string name="auth_invalid">❌ Invalid or expired API key</string>
+    <string name="connection_failed">❌ Connection failed</string>
+    <string name="save">Save &amp; Start</string>
+    <string name="error_empty_key">Please enter your API key</string>
+
+    <!-- الدردشة -->
+    <string name="rafiq_hello">Hello! I\'m Rafiq 🌟 your smart companion. How can I make your day better?</string>
+    <string name="chat_input_hint">Type your message…</string>
+    <string name="typing">Rafiq is typing…</string>
+    <string name="offline_banner">📴 Local mode — no internet connection</string>
+    <string name="status_online">Online</string>
+    <string name="status_offline">Local</string>
+    <string name="send">Send</string>
+
+    <!-- الصوت -->
+    <string name="listening">🎙️ Listening… speak now!</string>
+    <string name="listening_short">Listening…</string>
+    <string name="mic_permission_denied">🔒 Please allow microphone access for Rafiq</string>
+    <string name="voice_unavailable">⚠️ Speech recognition is not available on this device</string>
+    <string name="voice_error">⚠️ Didn\'t catch that — try again</string>
+    <string name="tts_lang_missing">🔇 Your device has no voice for one of the languages — Rafiq will stay silent there</string>
+    <string name="speaker_desc">Toggle Rafiq\'s voice</string>
+    <string name="long_press_hint">💡 Tip: long-press any message to hear it 🔊</string>
+
+    <!-- الوجه -->
+    <string name="cancel">Cancel</string>
+    <string name="face_menu">Companion\'s picture</string>
+    <string name="face_opt_change">📷 Choose a picture from gallery</string>
+    <string name="face_opt_reset">🔄 Back to default face</string>
+    <string name="face_saved">✨ Done! Your picture is alive now</string>
+    <string name="face_no_face">🙂 No clear face found — I\'ll animate the whole picture gently</string>
+    <string name="face_error">⚠️ Couldn\'t process this picture, try another one</string>
+
+    <!-- الذاكرة -->
+    <string name="ok">OK</string>
+    <string name="welcome_back">Welcome back! 🌟 I missed you — how has your day been?</string>
+    <string name="welcome_back_name">Welcome back, %1$s! 🌟 I missed you — how has your day been?</string>
+    <string name="mem_title">🧠 What Rafiq remembers about you</string>
+    <string name="mem_empty">Nothing yet — share things about yourself and I\'ll remember them (your name, likes, dreams…)</string>
+    <string name="mem_clear_all">🗑️ Forget everything</string>
+    <string name="mem_delete_confirm">Delete this memory?</string>
+    <string name="mem_cleared">🧹 Done — my mind is fresh again</string>
+
+    <!-- الأنماط والمدرّب -->
+    <string name="mode_menu">Choose Rafiq\'s mode</string>
+    <string name="mode_normal">🙂 Normal — for everyone</string>
+    <string name="mode_kid">🧒 Kid mode — safe &amp; fun</string>
+    <string name="mode_senior">👴 Senior mode — big &amp; clear</string>
+    <string name="mode_trainer">🗣️ Language trainer</string>
+    <string name="trainer_title">Practice which language?</string>
+    <string name="trainer_fr">🇫🇷 French</string>
+    <string name="trainer_en">🇬🇧 English</string>
+    <string name="trainer_ar">🇸🇦 Arabic</string>
+    <string name="trainer_off">❌ Turn off trainer</string>
+    <string name="trainer_banner_fr">🗣️ French trainer — speak French with me! (tap to change)</string>
+    <string name="trainer_banner_en">🗣️ English trainer — speak English with me! (tap to change)</string>
+    <string name="trainer_banner_ar">🗣️ Arabic trainer — speak Arabic with me! (tap to change)</string>
+    <string name="trainer_offline_prefix">📴 Offline practice — try this:</string>
+    <string name="kid_blocked">Let\'s use kind and friendly words 🌱 Tell me — what makes you smile today?</string>
+    <string name="mode_changed">Mode updated ✅</string>
+
+    <!-- الإعدادات والصباح -->
+    <string name="settings_menu">Rafiq settings</string>
+    <string name="morning_state_on">🔔 Morning greeting: ON at %1$s — tap to turn off</string>
+    <string name="morning_state_off">🔕 Morning greeting: OFF — tap to turn on</string>
+    <string name="morning_set_time">⏰ Change greeting time</string>
+    <string name="morning_enabled">☀️ Morning greeting enabled! Rafiq will say hi with your name</string>
+    <string name="morning_disabled">🔕 Morning greeting turned off</string>
+    <string name="morning_time_set">⏰ Time saved ✅</string>
+    <string name="morning_title">Good morning! ☀️</string>
+    <string name="morning_title_name">Good morning, %1$s! ☀️</string>
+    <string name="morning_streak">🔥 %1$d days in a row together — keep it up!</string>
+    <string name="notif_channel">Morning greetings</string>
+    <string name="exact_alarm_hint">For the greeting to arrive exactly on time, allow Rafiq the \"Alarms &amp; reminders\" permission</string>
+    <string name="clear_chat">🧹 Clear conversation</string>
+    <string name="clear_chat_confirm">Delete all messages? This can\'t be undone.</string>
+    <string name="chat_cleared">🧹 Fresh start!</string>
+    <string name="settings_config">🔑 Connection settings (API)</string>
+    <string name="about_title">ℹ️ About Rafiq</string>
+    <string name="about_body">Rafiq v1.0 🌟\nYour smart companion for all ages:\n• Talks, listens &amp; shows feelings\n• Your picture comes alive\n• Remembers what matters to you\n• Kid, Senior &amp; Language-trainer modes\n• Works online &amp; offline\n\nDesigned &amp; developed by Eng. Nabil Hassan — Expert in Cybersecurity, Software &amp; AI\n\nMade with 💚</string>
+
+    <string-array name="morning_lines">
+        <item>Rafiq woke up thinking of you — how shall we start our day? 🌟</item>
+        <item>A new day, a new adventure! Tell me your plans ☀️</item>
+        <item>Good morning! Don\'t forget to drink some water 💧</item>
+        <item>Ready to learn something amazing today? 🚀</item>
+    </string-array>
+    <string-array name="morning_lines_kid">
+        <item>Wake up, sleepy head! 🌞 A fun day is waiting for us!</item>
+        <item>Knock knock! Rafiq is ready to play and learn! 🧩</item>
+        <item>Today is going to be AWESOME! Ready? 🚀</item>
+    </string-array>
+</resources>
