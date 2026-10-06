@@ -37,13 +37,17 @@ class FaceView @JvmOverloads constructor(
     private var eInfL = FloatArray(n)
     private var eInfR = FloatArray(n)
 
-    private var mcx = 0f; private var mcy = 0f
+    private var mcx = 0f
+    private var mcy = 0f
     private var openPx = 0f
     private var sigM = 0f
-    private var lEx = 0f; private var lEy = 0f
-    private var rEx = 0f; private var rEy = 0f
+    private var lEx = 0f
+    private var lEy = 0f
+    private var rEx = 0f
+    private var rEy = 0f
     private var eyeR = 0f
-    private var bw = 0f; private var bh = 0f
+    private var bw = 0f
+    private var bh = 0f
 
     private var emotion = Emotion.CALM
     private var curCurve = 0f
@@ -83,11 +87,14 @@ class FaceView @JvmOverloads constructor(
         }
 
         if (hasFace) {
-            mcx = data.mouthCx * bw; mcy = data.mouthCy * bh
+            mcx = data.mouthCx * bw
+            mcy = data.mouthCy * bh
             openPx = max(data.mouthH * bh * 2.0f, bw * 0.055f)
             sigM = max(data.mouthW * bw * 1.6f, bw * 0.03f)
-            lEx = data.leftEyeX * bw; lEy = data.leftEyeY * bh
-            rEx = data.rightEyeX * bw; rEy = data.rightEyeY * bh
+            lEx = data.leftEyeX * bw
+            lEy = data.leftEyeY * bh
+            rEx = data.rightEyeX * bw
+            rEy = data.rightEyeY * bh
             eyeR = max(data.eyeR * bw, bw * 0.015f)
 
             val sM2 = 2f * sigM * sigM
@@ -95,14 +102,17 @@ class FaceView @JvmOverloads constructor(
             val sEx2 = 2f * sE * sE
             val sEy2 = 2f * (sE * 0.7f) * (sE * 0.7f)
             for (j in 0 until n) {
-                val dx = baseX[j] - mcx; val dy = baseY[j] - mcy
+                val dx = baseX[j] - mcx
+                val dy = baseY[j] - mcy
                 val mi = exp(-(dx * dx + dy * dy) / sM2)
                 mInf[j] = mi
                 widen[j] = mi * (dx / sigM).coerceIn(-1f, 1f)
                 curveInf[j] = mi * min(abs(dx) / sigM, 1f)
-                val ldx = baseX[j] - lEx; val ldy = baseY[j] - lEy
+                val ldx = baseX[j] - lEx
+                val ldy = baseY[j] - lEy
                 eInfL[j] = exp(-(ldx * ldx / sEx2 + ldy * ldy / sEy2))
-                val rdx = baseX[j] - rEx; val rdy = baseY[j] - rEy
+                val rdx = baseX[j] - rEx
+                val rdy = baseY[j] - rEy
                 eInfR[j] = exp(-(rdx * rdx / sEx2 + rdy * rdy / sEy2))
             }
         }
@@ -149,7 +159,7 @@ class FaceView @JvmOverloads constructor(
         if (speaking) {
             if (now > nextFlip) {
                 flipTarget = if (Random.nextFloat() < 0.18f) 0.08f
-                             else (0.3f + Random.nextFloat() * 0.7f) * curEnergy
+                else (0.3f + Random.nextFloat() * 0.7f) * curEnergy
                 flipTarget = flipTarget.coerceIn(0.05f, 1.1f)
                 nextFlip = now + 70L + Random.nextLong(120L)
             }
@@ -180,7 +190,8 @@ class FaceView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         val bmp = bitmap ?: return
-        val vw = width.toFloat(); val vh = height.toFloat()
+        val vw = width.toFloat()
+        val vh = height.toFloat()
         if (vw < 10f || vh < 10f) return
 
         val pad = 4f
@@ -264,8 +275,9 @@ class FaceView @JvmOverloads constructor(
                 if (eInfR[i] > 0.004f) y = rEy + (y - rEy) * (1f - blinkK * eInfR[i])
             }
 
-            verts[vi++] = x
-            verts[vi++] = y
+            verts[vi] = x
+            verts[vi + 1] = y
+            vi += 2
         }
     }
 }
