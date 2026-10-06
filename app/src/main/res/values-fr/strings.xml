@@ -97,4 +97,5 @@
         <item>Toc toc ! Rafiq est prêt à jouer et à apprendre ! 🧩</item>
         <item>Aujourd\'hui sera GÉNIAL ! Prêt ? 🚀</item>
     </string-array>
+    <string name="fallback_offline">Connexion échouée — Rafiq a répondu localement 📴</string>
 </resources>
