@@ -1,99 +1,97 @@
 package com.rafiq.app.voice
 
 import android.content.Context
+import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import android.speech.tts.Voice
+import android.util.Log
 import java.util.Locale
 
-class TextToSpeechManager(private val context: Context) {
+class TextToSpeechManager(
+    context: Context,
+    private val onReady: () -> Unit = {},
+    private val onDone: (String) -> Unit = {},
+    private val onError: (String) -> Unit = {}
+) : TextToSpeech.OnInitListener {
 
-    var onSpeakingChanged: ((Boolean) -> Unit)? = null
-    var onLanguageMissing: ((String) -> Unit)? = null
-    var onWord: (() -> Unit)? = null
+    private var tts: TextToSpeech? = TextToSpeech(context.applicationContext, this)
+    private var isReady = false
 
-    private var tts: TextToSpeech? = null
-    private var ready = false
-    private var enabled = true
-    private var activeCount = 0
-
-    private var rate = 1.0f
-    private var pitch = 1.05f
-
-    fun setProfile(speechRate: Float, speechPitch: Float) {
-        rate = speechRate; pitch = speechPitch
-    }
-
-    private val progressListener = object : UtteranceProgressListener() {
-        override fun onStart(utteranceId: String?) {}
-        override fun onDone(utteranceId: String?) = utteranceFinished()
-        @Deprecated("Deprecated in Java")
-        override fun onError(utteranceId: String?) = utteranceFinished()
-        override fun onError(utteranceId: String?, errorCode: Int) = utteranceFinished()
-        override fun onRangeStart(utteranceId: String?, start: Int, end: Int, frame: Int) {
-            onWord?.invoke()
-        }
-    }
-
-    init {
-        tts = TextToSpeech(context) { status ->
-            ready = status == TextToSpeech.SUCCESS
-            if (ready) tts?.setOnUtteranceProgressListener(progressListener)
-        }
-    }
-
-    val isEnabled get() = enabled
-    val isSpeaking: Boolean get() = activeCount > 0
-
-    fun setEnabled(value: Boolean) {
-        enabled = value
-        if (!value) stop()
-    }
-
-    fun speak(text: String) {
-        if (!ready || !enabled || text.isBlank()) return
-        val clean = text.trim()
-        val locale = localeFor(clean)
-
-        val availability = tts?.isLanguageAvailable(locale) ?: TextToSpeech.LANG_NOT_SUPPORTED
-        if (availability < TextToSpeech.LANG_AVAILABLE) {
-            onLanguageMissing?.invoke(locale.language)
+    override fun onInit(status: Int) {
+        if (status != TextToSpeech.SUCCESS) {
+            onError("فشل تهيئة محرك النطق")
             return
         }
-        tts?.language = locale
-        tts?.setSpeechRate(rate)
-        tts?.setPitch(pitch)
 
-        activeCount++
-        onSpeakingChanged?.invoke(true)
-        tts?.speak(clean, TextToSpeech.QUEUE_ADD, null, "rafiq_${System.nanoTime()}")
+        val engine = tts ?: return
+
+        // ✅ تعيين اللغة العربية
+        val result = engine.setLanguage(Locale("ar"))
+        if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+            onError("اللغة العربية غير مدعومة على هذا الجهاز")
+            return
+        }
+
+        // ✅ اختيار أفضل صوت عربي متاح (لجعل النطق بشرياً)
+        try {
+            val voices: Set<Voice>? = engine.voices
+            if (!voices.isNullOrEmpty()) {
+                val arabicVoices = voices.filter { it.locale.language == "ar" }
+                if (arabicVoices.isNotEmpty()) {
+                    // أولوية: صوت عالي الجودة لا يحتاج شبكة
+                    val bestVoice = arabicVoices.firstOrNull {
+                        !it.isNetworkConnectionRequired && it.quality >= Voice.QUALITY_HIGH
+                    } ?: arabicVoices.firstOrNull { !it.isNetworkConnectionRequired }
+                        ?: arabicVoices.firstOrNull { it.quality >= Voice.QUALITY_HIGH }
+                        ?: arabicVoices.first()
+
+                    engine.voice = bestVoice
+                    Log.d("TTS", "الصوت المختار: ${bestVoice.name} (${bestVoice.locale})")
+                }
+            }
+        } catch (e: Exception) {
+            Log.w("TTS", "تعذر اختيار الصوت: ${e.message}")
+        }
+
+        // ✅ إعدادات النطق الطبيعي
+        engine.setSpeechRate(0.95f)  // سرعة طبيعية
+        engine.setPitch(1.0f)        // نبرة طبيعية
+
+        engine.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {}
+            override fun onDone(utteranceId: String?) {
+                utteranceId?.let { onDone(it) }
+            }
+            @Deprecated("Deprecated in Java")
+            override fun onError(utteranceId: String?) {
+                utteranceId?.let { onError("خطأ في النطق: $it") }
+            }
+            override fun onError(utteranceId: String?, errorCode: Int) {
+                utteranceId?.let { onError("خطأ في النطق ($errorCode): $it") }
+            }
+        })
+
+        isReady = true
+        onReady()
     }
 
-    fun stop() {
-        activeCount = 0
-        tts?.stop()
-        onSpeakingChanged?.invoke(false)
+    fun speak(text: String, utteranceId: String = "rafiq_${System.currentTimeMillis()}") {
+        if (!isReady) {
+            onError("محرك النطق غير جاهز")
+            return
+        }
+        val params = Bundle()
+        tts?.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId)
     }
+
+    fun stop() = tts?.stop()
+    fun isSpeaking(): Boolean = tts?.isSpeaking == true
 
     fun shutdown() {
         tts?.stop()
         tts?.shutdown()
         tts = null
-        ready = false
-    }
-
-    private fun utteranceFinished() {
-        activeCount = (activeCount - 1).coerceAtLeast(0)
-        if (activeCount == 0) onSpeakingChanged?.invoke(false)
-    }
-
-    companion object {
-        fun localeFor(text: String): Locale {
-            val t = text.take(150)
-            return when {
-                t.any { it.code in 0x0600..0x06FF } -> Locale("ar")
-                t.any { Character.isLetter(it) && it.code in 0xC0..0x24F } -> Locale.FRENCH
-                else -> Locale.getDefault()
-            }
-        }
+        isReady = false
     }
 }
