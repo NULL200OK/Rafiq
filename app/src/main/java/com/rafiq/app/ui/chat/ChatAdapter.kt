@@ -1,73 +1,112 @@
 package com.rafiq.app.ui.chat
 
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.rafiq.app.R
-import com.rafiq.app.data.local.MessageEntity
-import com.rafiq.app.face.Emotion
-import java.text.DateFormat
-import java.util.Date
-import java.util.Locale
 
-class ChatAdapter : RecyclerView.Adapter<ChatAdapter.Holder>() {
+class ChatAdapter(
+    private val messages: MutableList<ChatMessage>,
+    private val onImageClick: (String) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val items = mutableListOf<MessageEntity>()
-    private var liveText: String? = null
-
-    var onLongSpeak: ((String) -> Unit)? = null
-    var textScale: Float = 1f
-
-    override fun getItemCount() = items.size + if (liveText != null) 1 else 0
-
-    override fun getItemViewType(position: Int): Int =
-        if (position < items.size && items[position].role == MessageEntity.ROLE_USER) 1 else 2
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val layout = if (viewType == 1) R.layout.item_message_user else R.layout.item_message_rafiq
-        return Holder(LayoutInflater.from(parent.context).inflate(layout, parent, false))
+    companion object {
+        private const val TYPE_USER = 1
+        private const val TYPE_RAFIQ = 2
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        val isLive = position >= items.size
-        val content = if (isLive) liveText.orEmpty() else items[position].content
-        val time = if (isLive) System.currentTimeMillis() else items[position].createdAt
+    override fun getItemViewType(position: Int): Int {
+        return if (messages[position].isUser) TYPE_USER else TYPE_RAFIQ
+    }
 
-        val text = if (!isLive && items[position].role == MessageEntity.ROLE_RAFIQ) {
-            Emotion.fromTag(items[position].emotion)?.let { "${it.emoji} $content" } ?: content
-        } else content
-
-        holder.tvText.text = text
-        holder.tvText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f * textScale)
-        holder.tvTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f * textScale)
-        holder.tvTime.text = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Date(time))
-        holder.tvText.setOnLongClickListener {
-            if (!isLive) onLongSpeak?.invoke(content)
-            true
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return if (viewType == TYPE_USER) {
+            val view = inflater.inflate(R.layout.item_message_user, parent, false)
+            UserViewHolder(view)
+        } else {
+            val view = inflater.inflate(R.layout.item_message_rafiq, parent, false)
+            RafiqViewHolder(view)
         }
     }
 
-    fun submit(list: List<MessageEntity>) {
-        items.clear(); items.addAll(list)
-        notifyDataSetChanged()
-    }
-
-    fun showLive(text: String?) {
-        val had = liveText != null
-        val has = text != null
-        liveText = text
-        when {
-            !had && has -> notifyItemInserted(items.size)
-            had && has -> notifyItemChanged(items.size)
-            had && !has -> notifyItemRemoved(items.size)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val message = messages[position]
+        when (holder) {
+            is UserViewHolder -> holder.bind(message, onImageClick)
+            is RafiqViewHolder -> holder.bind(message, onImageClick)
         }
     }
 
-    class Holder(v: View) : RecyclerView.ViewHolder(v) {
-        val tvText: TextView = v.findViewById(R.id.tvText)
-        val tvTime: TextView = v.findViewById(R.id.tvTime)
+    override fun getItemCount(): Int = messages.size
+
+    fun addMessage(message: ChatMessage) {
+        messages.add(message)
+        notifyItemInserted(messages.size - 1)
+    }
+
+    // ===== ViewHolders =====
+    class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val textView: TextView = itemView.findViewById(R.id.messageText)
+        private val imageView: ImageView = itemView.findViewById(R.id.messageImage)
+
+        fun bind(message: ChatMessage, onImageClick: (String) -> Unit) {
+            // نص
+            if (message.text.isNullOrBlank()) {
+                textView.visibility = View.GONE
+            } else {
+                textView.visibility = View.VISIBLE
+                textView.text = message.text
+            }
+
+            // صورة
+            if (message.imageUri.isNullOrBlank()) {
+                imageView.visibility = View.GONE
+            } else {
+                imageView.visibility = View.VISIBLE
+                Glide.with(itemView.context)
+                    .load(message.imageUri)
+                    .into(imageView)
+
+                imageView.setOnClickListener { onImageClick(message.imageUri) }
+            }
+        }
+    }
+
+    class RafiqViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val textView: TextView = itemView.findViewById(R.id.messageText)
+        private val imageView: ImageView = itemView.findViewById(R.id.messageImage)
+
+        fun bind(message: ChatMessage, onImageClick: (String) -> Unit) {
+            if (message.text.isNullOrBlank()) {
+                textView.visibility = View.GONE
+            } else {
+                textView.visibility = View.VISIBLE
+                textView.text = message.text
+            }
+
+            if (message.imageUri.isNullOrBlank()) {
+                imageView.visibility = View.GONE
+            } else {
+                imageView.visibility = View.VISIBLE
+                Glide.with(itemView.context)
+                    .load(message.imageUri)
+                    .into(imageView)
+
+                imageView.setOnClickListener { onImageClick(message.imageUri) }
+            }
+        }
     }
 }
+
+// نموذج رسالة بسيط (إذا لم يكن موجوداً عندك، ضعه في نفس المجلد)
+data class ChatMessage(
+    val id: Long = System.currentTimeMillis(),
+    val text: String? = null,
+    val imageUri: String? = null,
+    val isUser: Boolean = true
+)
