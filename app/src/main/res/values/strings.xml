@@ -108,5 +108,7 @@
         <item>Knock knock! Rafiq is ready to play and learn! 🧩</item>
         <item>Today is going to be AWESOME! Ready? 🚀</item>
     </string-array>
+    <string name="full_image">عرض الصورة بالحجم الكامل</string>
+    <string name="image_message">صورة في الرسالة</string>
     <string name="fallback_offline">Connection failed — Rafiq answered locally 📴</string>
 </resources>
