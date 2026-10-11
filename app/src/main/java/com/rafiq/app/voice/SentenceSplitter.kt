@@ -10,12 +10,20 @@ class SentenceSplitter {
         var start = 0
         for (i in buffer.indices) {
             val c = buffer[i]
-            val isTerminator = c == '.' || c == '!' || c == '?' || c == '؟' ||
-                    c == '؛' || c == '۔' || c == '…' || c == '\n'
-            if (isTerminator && isRealBoundary(i)) {
+            val isStrongTerminator = c == '.' || c == '!' || c == '?' ||
+                    c == '؟' || c == '۔' || c == '…' || c == '\n'
+            val isWeakTerminator = c == '،' || c == ',' || c == '؛' || c == ';'
+
+            if (isStrongTerminator && isRealBoundary(i)) {
                 val sentence = buffer.substring(start, i + 1).trim()
                 if (sentence.isNotEmpty()) sentences.add(sentence)
                 start = i + 1
+            } else if (isWeakTerminator && isRealBoundary(i)) {
+                val current = buffer.substring(start, i + 1).trim()
+                if (current.length > 60) {
+                    if (current.isNotEmpty()) sentences.add(current)
+                    start = i + 1
+                }
             }
         }
         if (start > 0) buffer.delete(0, start)
