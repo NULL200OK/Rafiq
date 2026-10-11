@@ -13,6 +13,7 @@
     <string name="connection_ok">✅ تم الاتصال بنجاح!</string>
     <string name="auth_invalid">❌ المفتاح غير صالح أو منتهي الصلاحية</string>
     <string name="connection_failed">❌ فشل الاتصال</string>
+    <string name="fallback_offline">جارٍ التبديل إلى الوضع المحلي…</string>
     <string name="save">حفظ وبدء</string>
     <string name="error_empty_key">الرجاء إدخال مفتاح الـ API</string>
 
@@ -86,7 +87,7 @@
     <string name="chat_cleared">🧹 بداية جديدة!</string>
     <string name="settings_config">🔑 إعدادات الاتصال (API)</string>
     <string name="about_title">ℹ️ حول رفيق</string>
-    <string name="about_body">رفيق — الإصدار 1.0 🌟\nرفيقك الذكي لكل الأعمار:\n• يتكلم ويستمع ويُظهر مشاعره\n• صورتك تتحول لكائن حي\n• يتذكر ما يهمك\n• أنماط الطفل وكبار السن ومدرّب اللغات\n• يعمل أونلاين وأوفلاين\n\nتصميم وتطوير: المهندس نبيل حسن — خبير الأمن السيبراني والبرامج والذكاء الاصطناعي\n\nصُنع بحب 💚</string>
+    <string name="about_body">رفيق — الإصدار 1.0 🌟\nرفيقك الذكي لكل الأعمار.\n\nتصميم وتطوير: المهندس نبيل حسن\n\nصُنع بحب 💚</string>
 
     <string-array name="morning_lines">
         <item>رفيق استيقظ يفكر فيك — كيف سنبدأ يومنا؟ 🌟</item>
