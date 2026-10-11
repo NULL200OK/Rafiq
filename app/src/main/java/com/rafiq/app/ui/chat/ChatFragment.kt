@@ -29,6 +29,7 @@ import com.rafiq.app.MainActivity
 import com.rafiq.app.R
 import com.rafiq.app.brain.MemoryManager
 import com.rafiq.app.databinding.FragmentChatBinding
+import com.rafiq.app.face.Emotion
 import com.rafiq.app.face.FaceAnalyzer
 import com.rafiq.app.face.FaceData
 import com.rafiq.app.face.FaceStore
@@ -57,7 +58,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private var stt: SpeechRecognitionManager? = null
     private val missingVoiceLangs = mutableSetOf<String>()
 
-    // ✅ قائمة كل امتدادات الصور المدعومة
     private val imageMimeTypes = arrayOf(
         "image/png",
         "image/jpeg",
@@ -65,21 +65,9 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         "image/gif",
         "image/webp",
         "image/bmp",
-        "image/svg+xml",
         "image/heic",
         "image/heif",
-        "image/tiff",
-        "image/avif",
-        "image/x-icon",
-        "image/vnd.microsoft.icon",
-        "image/x-ms-bmp",
-        "image/x-portable-pixmap",
-        "image/x-portable-bitmap",
-        "image/x-portable-graymap",
-        "image/x-xbitmap",
-        "image/x-xpixmap",
-        "image/x-rgb",
-        "image/x-cmu-raster"
+        "image/avif"
     )
 
     private val micPermissionLauncher = registerForActivityResult(
@@ -93,7 +81,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         ActivityResultContracts.RequestPermission()
     ) { }
 
-    // ✅ منتقي صور شامل يقبل كل الامتدادات
     private val pickImage = registerForActivityResult(
         ActivityResultContracts.OpenDocument()
     ) { uri ->
@@ -144,7 +131,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
         b.btnSettings.setOnClickListener { showSettingsDialog() }
 
-        // ✅ زر إلغاء الاستماع
         b.tvListeningCancel.setOnClickListener { stt?.cancel() }
 
         adapter.onLongSpeak = { content ->
@@ -280,6 +266,34 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
     }
 
+    private fun applyEmotionVoice(emotion: Emotion) {
+        val mode = RafiqMode.current(requireContext())
+        val baseRate = when (mode) {
+            RafiqMode.SENIOR -> 0.8f
+            RafiqMode.KID -> 1.0f
+            RafiqMode.NORMAL -> 1.0f
+        }
+        val basePitch = when (mode) {
+            RafiqMode.SENIOR -> 1.0f
+            RafiqMode.KID -> 1.15f
+            RafiqMode.NORMAL -> 1.05f
+        }
+
+        val (rateAdj, pitchAdj) = when (emotion) {
+            Emotion.HAPPY -> 1.10f to 1.12f
+            Emotion.EXCITED -> 1.18f to 1.18f
+            Emotion.SAD -> 0.85f to 0.90f
+            Emotion.CARING -> 0.92f to 1.08f
+            Emotion.CURIOUS -> 1.02f to 1.10f
+            Emotion.SURPRISED -> 1.10f to 1.15f
+            Emotion.CALM -> 1.0f to 1.0f
+            Emotion.THINKING -> 0.92f to 0.98f
+            Emotion.PROUD -> 1.05f to 1.08f
+        }
+
+        tts.setProfile(baseRate * rateAdj, basePitch * pitchAdj)
+    }
+
     private fun onMicPressed() {
         when {
             stt?.isListening == true -> stt?.cancel()
@@ -320,19 +334,15 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
     }
 
-    // ✅ محدَّثة: تُظهر شريطاً أحمر كبيراً عند الاستماع
     private fun updateMicUI(listening: Boolean) {
         _b ?: return
 
-        // الزر: لون أحمر عند الاستماع
         b.btnMic.backgroundTintList = ColorStateList.valueOf(
             if (listening) 0xFFE53935.toInt() else 0xFFECEFF1.toInt()
         )
 
-        // المؤشر الكبير
         b.listeningOverlay.visibility = if (listening) View.VISIBLE else View.GONE
 
-        // اهتزاز خفيف للأيقونة عند الاستماع
         if (listening) {
             val pulse = AlphaAnimation(0.4f, 1f).apply {
                 duration = 600
@@ -350,11 +360,9 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     private fun setupFace() {
         b.btnFaceEdit.setOnClickListener { showFaceMenu() }
-        // ✅ النقر على صورة الرفيق يفتحها بملء الشاشة
         b.faceView.setOnClickListener { openFullscreenFace() }
     }
 
-    // ✅ فتح صورة الرفيق بملء الشاشة
     private fun openFullscreenFace() {
         val stored = FaceStore.load(requireContext())
         val bmp = stored?.first ?: FaceStore.defaultFace(requireContext())
@@ -374,7 +382,6 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 arrayOf(getString(R.string.face_opt_change), getString(R.string.face_opt_reset))
             ) { _, which ->
                 when (which) {
-                    // ✅ يقبل كل الامتدادات
                     0 -> pickImage.launch(imageMimeTypes)
                     1 -> { FaceStore.clear(requireContext()); loadFace() }
                 }
@@ -386,10 +393,17 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private fun handlePicked(uri: Uri) {
         val appContext = requireContext().applicationContext
         viewLifecycleOwner.lifecycleScope.launch {
-            val prepared = withContext(Dispatchers.IO) {
-                FaceAnalyzer.decode(appContext, uri)?.let { FaceAnalyzer.prepare(it) }
+            val bitmap = withContext(Dispatchers.IO) {
+                FaceAnalyzer.decode(appContext, uri)
             }
-            if (prepared == null) { toast(R.string.face_error); return@launch }
+            if (bitmap == null) {
+                android.util.Log.e("ChatFragment", "decode failed for uri=$uri")
+                toast(R.string.face_error)
+                return@launch
+            }
+            val prepared = withContext(Dispatchers.IO) {
+                FaceAnalyzer.prepare(bitmap)
+            }
             withContext(Dispatchers.IO) { FaceStore.save(appContext, prepared.first, prepared.second) }
             _b ?: return@launch
             b.faceView.setFace(prepared.first, prepared.second)
@@ -548,7 +562,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 }
                 launch {
                     vm.speakEvents.collect { sentence ->
-                        if (vm.speakEnabled.value) tts.speak(sentence)
+                        if (vm.speakEnabled.value) {
+                            applyEmotionVoice(vm.emotion.value)
+                            tts.speak(sentence)
+                        }
                     }
                 }
                 launch {
