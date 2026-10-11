@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import java.util.Locale
 
 class SpeechRecognitionManager(private val context: Context) {
 
@@ -48,12 +47,10 @@ class SpeechRecognitionManager(private val context: Context) {
     private fun buildIntent(language: String?) = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
 
-        // ✅ العربية دائماً افتراضياً، إلا إذا اختار المستخدم لغة المدرّب
         val chosen = language ?: "ar"
         putExtra(RecognizerIntent.EXTRA_LANGUAGE, chosen)
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, chosen)
 
-        // على Android 13+ فعّل الكشف التلقائي عن اللغة
         if (Build.VERSION.SDK_INT >= 33) {
             putExtra(RecognizerIntent.EXTRA_ENABLE_LANGUAGE_DETECTION, true)
             putExtra(
@@ -62,7 +59,6 @@ class SpeechRecognitionManager(private val context: Context) {
             )
         }
 
-        // عند العربية: أضف كل اللهجات
         if (chosen.startsWith("ar")) {
             val dialects = arrayOf(
                 "ar-SA", "ar-EG", "ar-AE", "ar-JO", "ar-LB", "ar-SY",
