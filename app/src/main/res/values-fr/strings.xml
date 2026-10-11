@@ -41,6 +41,7 @@
     <string name="face_no_face">🙂 Pas de visage clair trouvé — j\'animerai toute l\'image doucement</string>
     <string name="face_error">⚠️ Impossible de traiter cette image, essaie une autre</string>
     <string name="full_image">Affichage plein écran</string>
+    <string name="image_message">Image</string>
 
     <string name="ok">D\'accord</string>
     <string name="welcome_back">Content de te revoir ! 🌟 Tu m\'as manqué — comment s\'est passée ta journée ?</string>
