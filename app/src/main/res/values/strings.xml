@@ -49,6 +49,7 @@
     <string name="face_no_face">🙂 No clear face found — I\'ll animate the whole picture gently</string>
     <string name="face_error">⚠️ Couldn\'t process this picture, try another one</string>
     <string name="full_image">Full image view</string>
+    <string name="image_message">Image</string>
 
     <!-- الذاكرة -->
     <string name="ok">OK</string>
