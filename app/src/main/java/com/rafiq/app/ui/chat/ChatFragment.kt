@@ -57,11 +57,29 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private var stt: SpeechRecognitionManager? = null
     private val missingVoiceLangs = mutableSetOf<String>()
 
-    // ✅ قائمة امتدادات الصور المدعومة
+    // ✅ قائمة كل امتدادات الصور المدعومة
     private val imageMimeTypes = arrayOf(
-        "image/png", "image/jpeg", "image/jpg", "image/gif",
-        "image/webp", "image/bmp", "image/svg+xml",
-        "image/heic", "image/heif", "image/tiff", "image/avif"
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "image/gif",
+        "image/webp",
+        "image/bmp",
+        "image/svg+xml",
+        "image/heic",
+        "image/heif",
+        "image/tiff",
+        "image/avif",
+        "image/x-icon",
+        "image/vnd.microsoft.icon",
+        "image/x-ms-bmp",
+        "image/x-portable-pixmap",
+        "image/x-portable-bitmap",
+        "image/x-portable-graymap",
+        "image/x-xbitmap",
+        "image/x-xpixmap",
+        "image/x-rgb",
+        "image/x-cmu-raster"
     )
 
     private val micPermissionLauncher = registerForActivityResult(
@@ -75,7 +93,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         ActivityResultContracts.RequestPermission()
     ) { }
 
-    // ✅ منتقي صور يقبل كل الامتدادات
+    // ✅ منتقي صور شامل يقبل كل الامتدادات
     private val pickImage = registerForActivityResult(
         ActivityResultContracts.OpenDocument()
     ) { uri ->
@@ -125,6 +143,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             if (actionId == EditorInfo.IME_ACTION_SEND) { sendAction(); true } else false
         }
         b.btnSettings.setOnClickListener { showSettingsDialog() }
+
+        // ✅ زر إلغاء الاستماع
+        b.tvListeningCancel.setOnClickListener { stt?.cancel() }
+
         adapter.onLongSpeak = { content ->
             if (vm.speakEnabled.value) { tts.stop(); tts.speak(content) }
         }
@@ -149,7 +171,13 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             .setItems(items) { _, which ->
                 when (which) {
                     0 -> toggleMorning()
-                    1 -> { if (!MorningStore.isEnabled(ctx)) { MorningStore.setEnabled(ctx, true); MorningScheduler.schedule(ctx) }; pickMorningTime() }
+                    1 -> {
+                        if (!MorningStore.isEnabled(ctx)) {
+                            MorningStore.setEnabled(ctx, true)
+                            MorningScheduler.schedule(ctx)
+                        }
+                        pickMorningTime()
+                    }
                     2 -> confirmClearChat()
                     3 -> (activity as? MainActivity)?.openConfig(null)
                     4 -> showAbout()
@@ -292,23 +320,41 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
     }
 
+    // ✅ محدَّثة: تُظهر شريطاً أحمر كبيراً عند الاستماع
     private fun updateMicUI(listening: Boolean) {
         _b ?: return
+
+        // الزر: لون أحمر عند الاستماع
         b.btnMic.backgroundTintList = ColorStateList.valueOf(
             if (listening) 0xFFE53935.toInt() else 0xFFECEFF1.toInt()
         )
-        b.tvVoiceState.visibility = if (listening) View.VISIBLE else View.GONE
+
+        // المؤشر الكبير
+        b.listeningOverlay.visibility = if (listening) View.VISIBLE else View.GONE
+
+        // اهتزاز خفيف للأيقونة عند الاستماع
+        if (listening) {
+            val pulse = AlphaAnimation(0.4f, 1f).apply {
+                duration = 600
+                repeatMode = Animation.REVERSE
+                repeatCount = Animation.INFINITE
+            }
+            b.tvListeningIcon.startAnimation(pulse)
+        } else {
+            b.tvListeningIcon.clearAnimation()
+        }
+
         b.etInput.hint = getString(if (listening) R.string.listening_short else R.string.chat_input_hint)
         b.faceView.setListening(listening)
     }
 
-    // ✅ تعديل: إضافة مستمع النقر على الوجه
     private fun setupFace() {
         b.btnFaceEdit.setOnClickListener { showFaceMenu() }
+        // ✅ النقر على صورة الرفيق يفتحها بملء الشاشة
         b.faceView.setOnClickListener { openFullscreenFace() }
     }
 
-    // ✅ دالة جديدة: فتح صورة الرفيق بملء الشاشة
+    // ✅ فتح صورة الرفيق بملء الشاشة
     private fun openFullscreenFace() {
         val stored = FaceStore.load(requireContext())
         val bmp = stored?.first ?: FaceStore.defaultFace(requireContext())
@@ -328,7 +374,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 arrayOf(getString(R.string.face_opt_change), getString(R.string.face_opt_reset))
             ) { _, which ->
                 when (which) {
-                    // ✅ تعديل: استخدام imageMimeTypes بدل "image/*"
+                    // ✅ يقبل كل الامتدادات
                     0 -> pickImage.launch(imageMimeTypes)
                     1 -> { FaceStore.clear(requireContext()); loadFace() }
                 }
