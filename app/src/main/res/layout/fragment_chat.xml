@@ -85,7 +85,6 @@
             android:textSize="15sp" />
     </FrameLayout>
 
-    <!-- ✅ مؤشر الاستماع الكبير والواضح -->
     <LinearLayout
         android:id="@+id/listeningOverlay"
         android:layout_width="match_parent"
