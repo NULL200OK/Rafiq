@@ -45,13 +45,9 @@ class SpeechRecognitionManager(private val context: Context) {
 
     private fun buildIntent(language: String?) = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-
-        // اللغة: إن اختار المستخدم لغة (المدرّب) نستخدمها، وإلا نتبع لغة الجهاز
         val chosen = language ?: Locale.getDefault().toString()
         putExtra(RecognizerIntent.EXTRA_LANGUAGE, chosen)
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, chosen)
-
-        // عند التحدث بالعربية: فعّل التعرف على جميع اللهجات تلقائياً
         if (chosen.startsWith("ar") || Locale.getDefault().language == "ar") {
             val dialects = arrayOf(
                 "ar-SA", "ar-EG", "ar-AE", "ar-JO", "ar-LB", "ar-SY",
@@ -60,7 +56,6 @@ class SpeechRecognitionManager(private val context: Context) {
             )
             putExtra("android.speech.extra.EXTRA_ADDITIONAL_LANGUAGES", dialects)
         }
-
         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
         putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
     }
