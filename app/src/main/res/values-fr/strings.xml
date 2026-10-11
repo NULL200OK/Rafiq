@@ -40,6 +40,7 @@
     <string name="face_saved">✨ C\'est fait ! Ton image prend vie</string>
     <string name="face_no_face">🙂 Pas de visage clair trouvé — j\'animerai toute l\'image doucement</string>
     <string name="face_error">⚠️ Impossible de traiter cette image, essaie une autre</string>
+    <string name="full_image">Affichage plein écran</string>
 
     <string name="ok">D\'accord</string>
     <string name="welcome_back">Content de te revoir ! 🌟 Tu m\'as manqué — comment s\'est passée ta journée ?</string>
@@ -97,5 +98,4 @@
         <item>Toc toc ! Rafiq est prêt à jouer et à apprendre ! 🧩</item>
         <item>Aujourd\'hui sera GÉNIAL ! Prêt ? 🚀</item>
     </string-array>
-    <string name="fallback_offline">Connexion échouée — Rafiq a répondu localement 📴</string>
 </resources>
