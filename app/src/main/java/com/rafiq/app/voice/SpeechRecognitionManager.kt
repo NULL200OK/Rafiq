@@ -2,6 +2,7 @@ package com.rafiq.app.voice
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -14,6 +15,7 @@ class SpeechRecognitionManager(private val context: Context) {
     var onFinalResult: ((String) -> Unit)? = null
     var onStateChange: ((Boolean) -> Unit)? = null
     var onError: ((Int) -> Unit)? = null
+    var onLanguageDetected: ((String) -> Unit)? = null
 
     private var recognizer: SpeechRecognizer? = null
     var isListening = false
@@ -45,10 +47,23 @@ class SpeechRecognitionManager(private val context: Context) {
 
     private fun buildIntent(language: String?) = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        val chosen = language ?: Locale.getDefault().toString()
+
+        // ✅ العربية دائماً افتراضياً، إلا إذا اختار المستخدم لغة المدرّب
+        val chosen = language ?: "ar"
         putExtra(RecognizerIntent.EXTRA_LANGUAGE, chosen)
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, chosen)
-        if (chosen.startsWith("ar") || Locale.getDefault().language == "ar") {
+
+        // على Android 13+ فعّل الكشف التلقائي عن اللغة
+        if (Build.VERSION.SDK_INT >= 33) {
+            putExtra(RecognizerIntent.EXTRA_ENABLE_LANGUAGE_DETECTION, true)
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_DETECTION_ALLOWED_LANGUAGES,
+                arrayOf("ar", "en", "fr")
+            )
+        }
+
+        // عند العربية: أضف كل اللهجات
+        if (chosen.startsWith("ar")) {
             val dialects = arrayOf(
                 "ar-SA", "ar-EG", "ar-AE", "ar-JO", "ar-LB", "ar-SY",
                 "ar-MA", "ar-DZ", "ar-TN", "ar-IQ", "ar-KW", "ar-QA",
@@ -56,6 +71,7 @@ class SpeechRecognitionManager(private val context: Context) {
             )
             putExtra("android.speech.extra.EXTRA_ADDITIONAL_LANGUAGES", dialects)
         }
+
         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
         putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
     }
@@ -74,6 +90,9 @@ class SpeechRecognitionManager(private val context: Context) {
         override fun onResults(results: Bundle?) {
             isListening = false
             onStateChange?.invoke(false)
+            results?.getStringArrayList(SpeechRecognizer.DETECTED_LANGUAGE)?.firstOrNull()?.let {
+                onLanguageDetected?.invoke(it)
+            }
             val text = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull()
             if (!text.isNullOrBlank()) onFinalResult?.invoke(text)
         }
