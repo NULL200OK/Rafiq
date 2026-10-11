@@ -41,6 +41,7 @@
     <string name="face_no_face">🙂 لم أجد وجهاً واضحاً — سأحرك الصورة كاملة بشكل لطيف</string>
     <string name="face_error">⚠️ تعذر تجهيز هذه الصورة، جرّب صورة أخرى</string>
     <string name="full_image">عرض الصورة بالحجم الكامل</string>
+    <string name="image_message">صورة</string>
 
     <string name="ok">حسناً</string>
     <string name="welcome_back">أهلاً بعودتك! 🌟 افتقدتك — كيف كان يومك؟</string>
