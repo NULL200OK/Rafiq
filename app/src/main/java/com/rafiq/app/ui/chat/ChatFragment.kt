@@ -75,7 +75,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         ActivityResultContracts.RequestPermission()
     ) { }
 
-    // ✅ منتقي الصور: يقبل كل الامتدادات
+    // ✅ منتقي صور يقبل كل الامتدادات
     private val pickImage = registerForActivityResult(
         ActivityResultContracts.OpenDocument()
     ) { uri ->
@@ -302,13 +302,13 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         b.faceView.setListening(listening)
     }
 
+    // ✅ تعديل: إضافة مستمع النقر على الوجه
     private fun setupFace() {
         b.btnFaceEdit.setOnClickListener { showFaceMenu() }
-        // ✅ النقر على صورة الرفيق يفتحها بملء الشاشة
         b.faceView.setOnClickListener { openFullscreenFace() }
     }
 
-    // ✅ فتح صورة الرفيق بملء الشاشة
+    // ✅ دالة جديدة: فتح صورة الرفيق بملء الشاشة
     private fun openFullscreenFace() {
         val stored = FaceStore.load(requireContext())
         val bmp = stored?.first ?: FaceStore.defaultFace(requireContext())
@@ -328,6 +328,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 arrayOf(getString(R.string.face_opt_change), getString(R.string.face_opt_reset))
             ) { _, which ->
                 when (which) {
+                    // ✅ تعديل: استخدام imageMimeTypes بدل "image/*"
                     0 -> pickImage.launch(imageMimeTypes)
                     1 -> { FaceStore.clear(requireContext()); loadFace() }
                 }
