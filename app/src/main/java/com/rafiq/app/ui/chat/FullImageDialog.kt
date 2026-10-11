@@ -1,6 +1,7 @@
 package com.rafiq.app.ui.chat
 
 import android.app.Dialog
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,21 +12,19 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
-import com.bumptech.glide.Glide
+import androidx.fragment.app.FragmentManager
 import com.rafiq.app.R
 
 class FullImageDialog : DialogFragment() {
 
     companion object {
-        private const val ARG_URI = "arg_uri"
-        fun newInstance(uri: String): FullImageDialog {
-            val d = FullImageDialog()
-            d.arguments = Bundle().apply { putString(ARG_URI, uri) }
-            return d
+        private var tempBitmap: Bitmap? = null
+
+        fun show(manager: FragmentManager, bitmap: Bitmap) {
+            tempBitmap = bitmap
+            FullImageDialog().show(manager, "FullImageDialog")
         }
     }
-
-    private var imageUri: String? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -34,19 +33,18 @@ class FullImageDialog : DialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.dialog_full_image, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        imageUri = arguments?.getString(ARG_URI)
-
         val imageView: ImageView = view.findViewById(R.id.fullImageView)
-        Glide.with(this)
-            .load(imageUri)
-            .into(imageView)
+        val bmp = tempBitmap
+        if (bmp != null) imageView.setImageBitmap(bmp)
 
-        // ✅ النقر على الصورة يغلقها (بديل إضافي لزر الرجوع)
+        // النقر على الصورة يغلقها
         imageView.setOnClickListener { dismiss() }
     }
 
@@ -59,9 +57,14 @@ class FullImageDialog : DialogFragment() {
             )
             setBackgroundDrawable(ColorDrawable(Color.BLACK))
             setDimAmount(0f)
-            // ✅ إخفاء شريط الحالة لملء الشاشة
+            // ملء الشاشة وإخفاء شريط الحالة
             decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tempBitmap = null
     }
 }
