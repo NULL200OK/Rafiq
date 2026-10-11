@@ -40,7 +40,6 @@ class TextToSpeechManager(private val context: Context) {
             ready = status == TextToSpeech.SUCCESS
             if (ready) {
                 tts?.setOnUtteranceProgressListener(progressListener)
-                // ✅ اختيار أفضل صوت عربي متاح على الجهاز (لنطق أقرب للبشري)
                 try {
                     val voices = tts?.voices
                     if (!voices.isNullOrEmpty()) {
