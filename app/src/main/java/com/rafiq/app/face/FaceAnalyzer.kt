@@ -116,30 +116,48 @@ object FaceAnalyzer {
             ?: return@withContext scaleTo(centerSquare(src), 800) to FaceData.NONE
 
         val bb = face.boundingBox
-        val side = (max(bb.width(), bb.height()) * 1.9f).toInt().coerceIn(300, 2000)
-        val cx = bb.exactCenterX()
-        val cy = bb.exactCenterY() - bb.height() * 0.08f
+        val side: Int = (max(bb.width(), bb.height()) * 1.9f).toInt().coerceIn(300, 2000)
+        val cx: Float = bb.exactCenterX()
+        val cy: Float = bb.exactCenterY() - bb.height() * 0.08f
 
-        val left = (cx - side / 2f).coerceIn(0f, (src.width - side).coerceAtLeast(0f))
-        val top = (cy - side / 2f).coerceIn(0f, (src.height - side).coerceAtLeast(0f))
-        val cw = min(side, src.width - left.toInt()).toInt().coerceAtLeast(1)
-        val ch = min(side, src.height - top.toInt()).toInt().coerceAtLeast(1)
+        // ✅ الإصلاح 1: تحويل Int إلى Float قبل coerceAtLeast
+        val left: Float = (cx - side / 2f).coerceIn(
+            0f,
+            (src.width - side).toFloat().coerceAtLeast(0f)
+        )
+        val top: Float = (cy - side / 2f).coerceIn(
+            0f,
+            (src.height - side).toFloat().coerceAtLeast(0f)
+        )
+
+        val cw: Int = min(side, src.width - left.toInt()).toInt().coerceAtLeast(1)
+        val ch: Int = min(side, src.height - top.toInt()).toInt().coerceAtLeast(1)
 
         fun nx(x: Float) = ((x - left) / cw).coerceIn(0f, 1f)
         fun ny(y: Float) = ((y - top) / ch).coerceIn(0f, 1f)
 
+        // ✅ الإصلاح 2: حذف MOUTH_TOP لأنه غير موجود في ML Kit
         val mL = face.getLandmark(FaceLandmark.MOUTH_LEFT)?.position
         val mR = face.getLandmark(FaceLandmark.MOUTH_RIGHT)?.position
-        val mT = face.getLandmark(FaceLandmark.MOUTH_TOP)?.position
         val mB = face.getLandmark(FaceLandmark.MOUTH_BOTTOM)?.position
         val eL = face.getLandmark(FaceLandmark.LEFT_EYE)?.position
         val eR = face.getLandmark(FaceLandmark.RIGHT_EYE)?.position
 
         val data = if (mL != null && mR != null && eL != null && eR != null) {
             val mouthCx = (mL.x + mR.x) / 2f
-            val mouthCy = if (mT != null && mB != null) (mT.y + mB.y) / 2f else (mL.y + mR.y) / 2f
+            // نقدّر مركز الفم من الزوايا + الحد السفلي (بدل MOUTH_TOP غير المتاح)
+            val mouthCy = if (mB != null) {
+                (mL.y + mR.y + mB.y) / 3f
+            } else {
+                (mL.y + mR.y) / 2f
+            }
             val halfW = dist(mL.x, mL.y, mR.x, mR.y) / 2f
-            val mouthH = if (mT != null && mB != null) abs(mB.y - mT.y) else halfW * 0.5f
+            // نقدّر ارتفاع الفم من المسافة بين الزوايا والحد السفلي
+            val mouthH = if (mB != null) {
+                abs(mB.y - (mL.y + mR.y) / 2f)
+            } else {
+                halfW * 0.5f
+            }
             val eyeDist = dist(eL.x, eL.y, eR.x, eR.y)
 
             FaceData(
