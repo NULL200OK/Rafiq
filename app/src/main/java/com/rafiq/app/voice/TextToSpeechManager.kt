@@ -71,9 +71,11 @@ class TextToSpeechManager(private val context: Context) {
 
     fun speak(text: String) {
         if (!ready || !enabled || text.isBlank()) return
-        val clean = text.trim()
-        val locale = localeFor(clean)
 
+        val clean = stripEmojis(text).trim()
+        if (clean.isBlank()) return
+
+        val locale = localeFor(clean)
         val availability = tts?.isLanguageAvailable(locale) ?: TextToSpeech.LANG_NOT_SUPPORTED
         if (availability < TextToSpeech.LANG_AVAILABLE) {
             onLanguageMissing?.invoke(locale.language)
@@ -107,6 +109,28 @@ class TextToSpeechManager(private val context: Context) {
     }
 
     companion object {
+        private val EMOJI_REGEX = Regex(
+            "[" +
+            "\\u2190-\\u21FF" +
+            "\\u2300-\\u23FF" +
+            "\\u2600-\\u26FF" +
+            "\\u2700-\\u27BF" +
+            "\\u2B00-\\u2BFF" +
+            "\\uD83C[\\uDC00-\\uDFFF]" +
+            "\\uD83D[\\uDC00-\\uDFFF]" +
+            "\\uD83E[\\uDD00-\\uDDFF]" +
+            "\\uFE0F" +
+            "\\u200D" +
+            "]+"
+        )
+
+        fun stripEmojis(text: String): String {
+            return text
+                .replace(EMOJI_REGEX, " ")
+                .replace(Regex("\\s+"), " ")
+                .trim()
+        }
+
         fun localeFor(text: String): Locale {
             val t = text.take(150)
             return when {
