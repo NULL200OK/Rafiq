@@ -48,6 +48,7 @@
     <string name="face_saved">✨ Done! Your picture is alive now</string>
     <string name="face_no_face">🙂 No clear face found — I\'ll animate the whole picture gently</string>
     <string name="face_error">⚠️ Couldn\'t process this picture, try another one</string>
+    <string name="full_image">Full image view</string>
 
     <!-- الذاكرة -->
     <string name="ok">OK</string>
@@ -108,7 +109,4 @@
         <item>Knock knock! Rafiq is ready to play and learn! 🧩</item>
         <item>Today is going to be AWESOME! Ready? 🚀</item>
     </string-array>
-    <string name="full_image">عرض الصورة بالحجم الكامل</string>
-    <string name="image_message">صورة في الرسالة</string>
-    <string name="fallback_offline">Connection failed — Rafiq answered locally 📴</string>
 </resources>
