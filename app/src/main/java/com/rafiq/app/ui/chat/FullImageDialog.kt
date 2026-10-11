@@ -41,10 +41,7 @@ class FullImageDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val imageView: ImageView = view.findViewById(R.id.fullImageView)
-        val bmp = tempBitmap
-        if (bmp != null) imageView.setImageBitmap(bmp)
-
-        // النقر على الصورة يغلقها
+        tempBitmap?.let { imageView.setImageBitmap(it) }
         imageView.setOnClickListener { dismiss() }
     }
 
@@ -57,7 +54,6 @@ class FullImageDialog : DialogFragment() {
             )
             setBackgroundDrawable(ColorDrawable(Color.BLACK))
             setDimAmount(0f)
-            // ملء الشاشة وإخفاء شريط الحالة
             decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
