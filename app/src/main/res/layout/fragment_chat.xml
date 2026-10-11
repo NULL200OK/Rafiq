@@ -39,8 +39,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/mode_menu"
             android:padding="6dp"
-            android:text="🙂"
-            android:textSize="18sp" />
+            android:text="🙂" android:textSize="18sp" />
 
         <TextView
             android:id="@+id/btnMemory"
@@ -48,8 +47,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/mem_title"
             android:padding="6dp"
-            android:text="🧠"
-            android:textSize="18sp" />
+            android:text="🧠" android:textSize="18sp" />
 
         <TextView
             android:id="@+id/btnSettings"
@@ -87,6 +85,47 @@
             android:textSize="15sp" />
     </FrameLayout>
 
+    <!-- ✅ مؤشر الاستماع الكبير والواضح -->
+    <LinearLayout
+        android:id="@+id/listeningOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="#F44336"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvListeningIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎙️"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tvVoiceState"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:text="@string/listening"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvListeningCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:text="✕"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/offlineBanner"
         android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -122,16 +161,6 @@
         android:paddingStart="20dp" android:paddingEnd="20dp" android:paddingBottom="4dp"
         android:text="@string/typing"
         android:textColor="#78909C" android:textSize="13sp" android:textStyle="italic"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/tvVoiceState"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="6dp"
-        android:text="@string/listening"
-        android:textColor="@color/rafiq_primary"
-        android:textSize="14sp" android:textStyle="bold"
         android:visibility="gone" />
 
     <LinearLayout
